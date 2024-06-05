@@ -4,6 +4,7 @@ metadata:
   name: OrderRetrieveOrchestrator
   annotations:
     github.com/project-slug: mmussett/OrderRetrieveOrchestrator
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: other
   lifecycle: unknown
