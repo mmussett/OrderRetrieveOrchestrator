@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: OrderRetrieveOrchestrator
+  annotations:
+    github.com/project-slug: mmussett/OrderRetrieveOrchestrator
+spec:
+  type: other
+  lifecycle: unknown
+  owner: DocGeneration
