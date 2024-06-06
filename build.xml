@@ -140,7 +140,8 @@
 
         <exec executable="curl">
             <arg value="-s" />
-            <arg value="-X POST" />
+            <arg value="-X" />
+            <arg value="POST" />
             <arg value="--location" />
             <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo?os=${target_os}&amp;arch=${target_arch}" />
             <arg value="--header" />
