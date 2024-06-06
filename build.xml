@@ -30,6 +30,10 @@
     <property name="client_id" value="${env.CLIENT_ID}"/>
     <property name="client_secret" value="${env.CLIENT_SECRET}"/>
 
+    <echo message="APP_ID: ${appid}"/>
+    <echo message="CLIENT_ID: ${client_id}"/>
+    <echo message="CLIENT_SECRET: ${client_secret}"/>
+    
     <target name="init" depends="fetch-token">
     
     </target>
