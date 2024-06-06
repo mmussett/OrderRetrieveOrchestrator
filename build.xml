@@ -2,7 +2,7 @@
 
     <property environment="env"/>
 
-    <fail message="client_id not set.">
+    <fail message="CLIENT_ID not set.">
         <condition>
             <not>
                 <isset property="env.CLIENT_ID"/>    
@@ -10,7 +10,7 @@
         </condition>
     </fail>
 
-    <fail message="client_secret not set.">
+    <fail message="CLIENT_SECRET not set.">
         <condition>
             <not>
                 <isset property="env.CLIENT_SECRET"/>
@@ -18,7 +18,7 @@
         </condition>
     </fail>
 
-    <fail message="app_id not set.">
+    <fail message="APP_ID not set.">
         <condition>
             <not>
                 <isset property="env.APP_ID"/>
