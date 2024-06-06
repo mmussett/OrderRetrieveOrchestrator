@@ -2,7 +2,7 @@
 
     <property environment="env"/>
     
-    <property name="appid" value="${env.APP_ID}"/>
+    <property name="appid" value="dnqcj37vr75gcqpwmrg4nthgro5xyuht"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
     <property name="client_secret" value="${env.CLIENT_SECRET}"/>
 
