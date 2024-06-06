@@ -11,7 +11,10 @@ on:
 
 jobs:
   build:
-
+    env:
+      CLIENT_ID: ${{secrets.CLIENT_ID}}
+      CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+      
     runs-on: self-hosted
     
     steps:
