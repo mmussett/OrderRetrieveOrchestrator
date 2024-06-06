@@ -1,8 +1,32 @@
 <project>
 
     <property environment="env"/>
+
+    <fail message="client_id not set.">
+        <condition>
+            <not>
+                <isset property="env.CLIENT_ID"/>    
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="client_secret not set.">
+        <condition>
+            <not>
+                <isset property="env.CLIENT_SECRET"/>
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="app_id not set.">
+        <condition>
+            <not>
+                <isset property="env.APP_ID"/>
+            </not>
+        </condition>
+    </fail>
     
-    <property name="appid" value="dnqcj37vr75gcqpwmrg4nthgro5xyuht"/>
+    <property name="appid" value="${env.APP_ID}"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
     <property name="client_secret" value="${env.CLIENT_SECRET}"/>
 
