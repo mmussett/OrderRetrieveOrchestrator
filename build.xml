@@ -1,8 +1,10 @@
 <project>
 
-    <property name="appid" value="4ite5o3wk354sapitxwzwg7y6djpcdvh"/>
-    <property name="client_id" value="<<SET BEFORE RUNNING>>"/>
-    <property name="client_secret" value="<<SET BEFORE RUNNING>>"/>
+    <property environment="env"/>
+    
+    <property name="appid" value="${env.APP_ID}"/>
+    <property name="client_id" value="${env.CLIENT_ID}"/>
+    <property name="client_secret" value="${env.CLIENT_SECRET}"/>
 
     <target name="init" depends="fetch-token">
     
