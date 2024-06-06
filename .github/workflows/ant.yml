@@ -21,4 +21,4 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml
+      run: ant -noinput -buildfile build.xml fetch-token
