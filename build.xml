@@ -25,6 +25,43 @@
             </not>
         </condition>
     </fail>
+
+    <fail message="EXECUTABLE_NAME not set.">
+        <condition>
+            <not>
+                <isset property="env.EXECUTABLE_NAME"/>    
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="APP_JSON not set.">
+        <condition>
+            <not>
+                <isset property="env.APP_JSON"/>
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="TARGET_OS not set.">
+        <condition>
+            <not>
+                <isset property="env.TARGET_OS"/>
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="TARGET_ARCH not set.">
+        <condition>
+            <not>
+                <isset property="env.TARGET_ARCH"/>
+            </not>
+        </condition>
+    </fail>
+    
+    <property name="executable_name" value="orderRetrieveOrchestrator"/>
+    <property name="app_json" value="OrderRetrieveOrchestrator.json"/>
+    <property name="target_os" value="linux"/>
+    <property name="target_arch" value="amd64"/>
     
     <property name="appid" value="${env.APP_ID}"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
@@ -33,6 +70,10 @@
     <echo message="APP_ID: ${appid}"/>
     <echo message="CLIENT_ID: ${client_id}"/>
     <echo message="CLIENT_SECRET: ${client_secret}"/>
+    <echo message="EXECUTABLE_NAME: ${executable_name}"/>
+    <echo message="APP_JSON: ${app_json}"/>
+    <echo message="TARGET_OS: ${target_os}"/>
+    <echo message="TARGET_ARCH: ${target_arch}"/>
     
     <target name="init" depends="fetch-token">
     
@@ -80,7 +121,7 @@
         <exec executable="curl">
             <arg value="-s" />
             <arg value="--location" />
-            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=windows&amp;arch=amd64" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=${target_os}&amp;arch=${target_arch}" />
             <arg value="--header" />
             <arg value="accept: application/json" />
             <arg value="--header" />
@@ -93,7 +134,27 @@
 
     </target>
 
+    <target name="build-using-appjson" depends="init">
 
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="-X POST" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo?os=${target_os}&amp;arch=${target_arch}" />
+            <arg value="--header" />
+            <arg value="accept: application/json" />
+            <arg value="--header" />
+            <arg value="Content-Type: multipart/form-data" />        
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--form" />
+            <arg value="'flogo.json=@\"./src/${app_json}\"'" />        
+        </exec>
+
+    </target>
+    
     <target name="download-app" depends="build">
     
         <fail unless="token">Bearer Token not set!</fail>
@@ -101,7 +162,7 @@
         <exec executable="curl">
             <arg value="-s" />
             <arg value="--location" />
-            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=windows&amp;arch=amd64&amp;compress=true" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=${target_os}&amp;arch=${target_arch}&amp;compress=true" />
             <arg value="--header" />
             <arg value="accept: application/octet-stream" />
             <arg value="--header" />
@@ -109,7 +170,7 @@
             <arg value="--header" />
             <arg value="Authorization: Bearer ${token}" />
             <arg value="--output" />
-            <arg value="flogo-app.exe" />        
+            <arg value="${executable_name}" />        
         </exec>
 
     </target>
