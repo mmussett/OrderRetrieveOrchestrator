@@ -21,5 +21,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - uses: sergeysova/jq-action@v2
+      with:
+        cmd: jq -n env
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
