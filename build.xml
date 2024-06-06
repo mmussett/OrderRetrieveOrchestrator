@@ -1,0 +1,158 @@
+<project>
+
+    <property name="appid" value="4ite5o3wk354sapitxwzwg7y6djpcdvh"/>
+    <property name="client_id" value="<<SET BEFORE RUNNING>>"/>
+    <property name="client_secret" value="<<SET BEFORE RUNNING>>"/>
+
+    <target name="init" depends="fetch-token">
+    
+    </target>
+
+    <target name="clean">
+      <delete file="flogo-app.exe" />
+      <delete file="export.zip"/>
+      <delete file="testsuite.flogotest"/>
+      <delete file="tests/unittestapp.testresult"/>
+    </target>
+
+
+    <target name="fetch-token">
+        <exec executable="curl" outputproperty="json-token">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.account.cloud.tibco.com/idm/v1/oauth2/token" />
+            <arg value="--header" />
+            <arg value="Content-Type: application/x-www-form-urlencoded" />        
+            <arg value="--user" />
+            <arg value="${client_id}:${client_secret}" />
+            <arg value="--data-urlencode" />
+            <arg value="grant_type=client_credentials" />
+            <arg value="--data-urlencode" />
+            <arg value="scope=TCI" />        
+        </exec>
+
+       <exec executable="jq" inputstring="${json-token}" outputproperty="access-token">
+         <arg value=".access_token"/>
+         <arg value="--raw-output"/>
+       </exec>
+
+       <echo message="${access-token}" />
+
+       <property name="token" value="${access-token}"/>
+
+    </target>
+
+
+    <target name="build" depends="init">
+
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=windows&amp;arch=amd64" />
+            <arg value="--header" />
+            <arg value="accept: application/json" />
+            <arg value="--header" />
+            <arg value="Content-Type: application/x-www-form-urlencoded" />        
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--data-urlencode" />
+            <arg value="Request=" />        
+        </exec>
+
+    </target>
+
+
+    <target name="download-app" depends="build">
+    
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/flogo/build?os=windows&amp;arch=amd64&amp;compress=true" />
+            <arg value="--header" />
+            <arg value="accept: application/octet-stream" />
+            <arg value="--header" />
+            <arg value="Content-Type: application/x-www-form-urlencoded" />        
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--output" />
+            <arg value="flogo-app.exe" />        
+        </exec>
+
+    </target>
+
+
+    <target name="download-testsuite" depends="init">
+
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/testsuite/export" />
+            <arg value="--header" />
+            <arg value="accept: application/json" />      
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--output" />
+            <arg value="testsuite.flogotest" />        
+        </exec>
+    
+    </target>
+
+
+    <target name="export-app" depends="init">
+    
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/apps/${appid}/export?manifest=true" />
+            <arg value="--header" />
+            <arg value="accept: application/zip" />    
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--output" />
+            <arg value="export.zip" />        
+        </exec>    
+    </target>
+
+    <target name="run-testsuite" depends="clean, build, download-app, download-testsuite">
+       <exec executable="flogo-app.exe">
+         <arg value="--test" />
+         <arg value="--test-file" />
+         <arg value="testsuite.flogotest" />
+         <arg value="--test-suites" />
+         <arg value="Testsuite_1" />
+         <arg value="--output-dir" />
+         <arg value="${user.dir}/tests" />
+         <arg value="--result-filename" />
+         <arg value="unittestapp" />
+       </exec>
+    </target>
+
+    <target name="eval-testresults" depends="run-testsuite">
+       <loadfile property="results" srcFile="${user.dir}/tests/unittestapp.testresult" />
+       <echo message="${results}" />
+
+       <exec executable="jq" input="${user.dir}/tests/unittestapp.testresult" outputproperty="failedSuites">
+         <arg value=".result.failedSuites"/>
+       </exec>
+
+       <condition property="testsuite.passed">
+          <equals arg1="${failedSuites}" arg2="0" />
+       </condition>
+ 
+       <fail unless="testsuite.passed">Test Suite Failed</fail>
+
+    </target>
+
+
+    <target name="all" depends="clean, build, download-app, download-testsuite, export-app, run-testsuite, eval-testresults">
+    </target>
+
+</project>
