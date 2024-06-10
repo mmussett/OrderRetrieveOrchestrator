@@ -22,10 +22,8 @@ jobs:
       EXECUTABLE_NAME: orderRetrieveOrchestrator
       TARGET_ARCH: amd64
       TARGET_OS: linux
-      SRC_CONTAINER_NAME: order-retrieve-orchestrator
-      SRC_CONTAINER_TAG: v1.0.0
-      TARGET_CONTAINER_NAME: order-retrieve-orchestrator
-      TARGET_CONTAINER_TAG: v1.0.0
+      CONTAINER_NAME: order-retrieve-orchestrator
+      CONTAINER_TAG: v1.0.0
       
     runs-on: self-hosted
     
