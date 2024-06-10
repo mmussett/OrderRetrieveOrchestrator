@@ -137,34 +137,34 @@
     <target name="build" depends="init">
 
         <fail unless="token">Bearer Token not set!</fail>
+        
+        <fail message="APP_ID not set.">
+            <condition>
+                <not>
+                    <isset property="env.APP_ID"/>
+                </not>
+            </condition>
+        </fail>
 
-            <fail message="APP_ID not set.">
-        <condition>
-            <not>
-                <isset property="env.APP_ID"/>
-            </not>
-        </condition>
-    </fail>
+        <fail message="TARGET_OS not set.">
+            <condition>
+                <not>
+                    <isset property="env.TARGET_OS"/>
+                </not>
+            </condition>
+        </fail>
 
-    <fail message="TARGET_OS not set.">
-        <condition>
-            <not>
-                <isset property="env.TARGET_OS"/>
-            </not>
-        </condition>
-    </fail>
+        <fail message="TARGET_ARCH not set.">
+            <condition>
+                <not>
+                    <isset property="env.TARGET_ARCH"/>
+                </not>
+            </condition>
+        </fail>
 
-    <fail message="TARGET_ARCH not set.">
-        <condition>
-            <not>
-                <isset property="env.TARGET_ARCH"/>
-            </not>
-        </condition>
-    </fail>
-
-    <property name="appid" value="${env.APP_ID}"/>        
-    <property name="target_os" value="${env.TARGET_OS}"/>
-    <property name="target_arch" value="${env.TARGET_ARCH}"/>        
+        <property name="appid" value="${env.APP_ID}"/>        
+        <property name="target_os" value="${env.TARGET_OS}"/>
+        <property name="target_arch" value="${env.TARGET_ARCH}"/>        
         
         <exec executable="curl">
             <arg value="-s" />
@@ -185,6 +185,43 @@
     <target name="build-using-appjson" depends="init">
 
         <fail unless="token">Bearer Token not set!</fail>
+
+        <fail message="APP_JSON not set.">
+            <condition>
+                <not>
+                    <isset property="env.APP_JSON"/>
+                </not>
+            </condition>
+        </fail>
+
+        <fail message="EXECUTABLE_NAME not set.">
+            <condition>
+                <not>
+                    <isset property="env.EXECUTABLE_NAME"/>
+                </not>
+            </condition>
+        </fail>
+        
+        <fail message="TARGET_OS not set.">
+            <condition>
+                <not>
+                    <isset property="env.TARGET_OS"/>
+                </not>
+            </condition>
+        </fail>
+
+        <fail message="TARGET_ARCH not set.">
+            <condition>
+                <not>
+                    <isset property="env.TARGET_ARCH"/>
+                </not>
+            </condition>
+        </fail>
+        
+        <property name="executable_name" value="${env.EXECUTABLE_NAME}"/>
+        <property name="app_json" value="${env.APP_JSON}"/>
+        <property name="target_os" value="${env.TARGET_OS}"/>
+        <property name="target_arch" value="${env.TARGET_ARCH}"/>        
 
         <echo message="Building Flogo application from source ${app_json}"/>
         
@@ -212,7 +249,7 @@
            <arg value="build.json"/>
        </exec>
 
-        <echo message="BUILD_ID: ${build_id}" />
+        <echo message="Generated BUILD_ID: ${build_id}" />
         
     </target>
 
