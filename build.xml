@@ -171,11 +171,13 @@
         <fail unless="token">Bearer Token 'token' not set!</fail>
 
         <fail unless="build_id">build_id not set!</fail>
+
+        <echo message="Downloading build_id: ${build_id"/>
         
         <exec executable="curl">
             <arg value="-s" />
             <arg value="--location" />
-            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo/{build_id}?compress=true" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo/${build_id}?compress=true" />
             <arg value="--header" />
             <arg value="accept: application/octet-stream" />
             <arg value="--header" />
