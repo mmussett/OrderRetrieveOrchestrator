@@ -104,9 +104,6 @@
                 </not>
             </condition>
         </fail>
-
-        <property name="client_id" value="${env.CLIENT_ID}"/>
-        <property name="client_secret" value="${env.CLIENT_SECRET}"/>
         
         <exec executable="curl" outputproperty="json-token">
             <arg value="-s" />
@@ -160,11 +157,7 @@
                     <isset property="env.TARGET_ARCH"/>
                 </not>
             </condition>
-        </fail>
-
-        <property name="appid" value="${env.APP_ID}"/>        
-        <property name="target_os" value="${env.TARGET_OS}"/>
-        <property name="target_arch" value="${env.TARGET_ARCH}"/>        
+        </fail> 
         
         <exec executable="curl">
             <arg value="-s" />
@@ -183,7 +176,7 @@
     </target>
 
     <target name="build-using-appjson" depends="init">
-
+        
         <fail unless="token">Bearer Token not set!</fail>
 
         <fail message="APP_JSON not set.">
@@ -217,11 +210,7 @@
                 </not>
             </condition>
         </fail>
-        
-        <property name="executable_name" value="${env.EXECUTABLE_NAME}"/>
-        <property name="app_json" value="${env.APP_JSON}"/>
-        <property name="target_os" value="${env.TARGET_OS}"/>
-        <property name="target_arch" value="${env.TARGET_ARCH}"/>        
+           
 
         <echo message="Building Flogo application from source ${app_json}"/>
         
