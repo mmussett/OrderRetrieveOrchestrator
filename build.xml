@@ -138,6 +138,8 @@
 
         <fail unless="token">Bearer Token not set!</fail>
 
+        <echo message="Building Flogo application from source ${app_json}"/>
+        
         <exec executable="curl">
             <arg value="-s" />
             <arg value="-X" />
@@ -172,7 +174,7 @@
 
         <fail unless="build_id">build_id not set!</fail>
 
-        <echo message="Downloading build_id: ${build_id"/>
+        <echo message="Downloading build_id: ${build_id} as executable ${executable_name}"/>
         
         <exec executable="curl">
             <arg value="-s" />
