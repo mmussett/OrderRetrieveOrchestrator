@@ -15,7 +15,7 @@ jobs:
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
       REGISTRY_USERNAME: ${{secrets.REGISTRY_USERNAME}}
-      REGISTRY_PASSWORD: f1rest0rm
+      REGISTRY_PASSWORD: ${{secrets.REGISTRY_PASSWORD}}
       REGISTRY_SERVER: registry.vmlab.live
       APP_ID: dnqcj37vr75gcqpwmrg4nthgro5xyuht
       APP_JSON: OrderRetrieveOrchestrator.json
