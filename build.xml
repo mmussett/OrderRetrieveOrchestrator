@@ -170,13 +170,17 @@
 
     <target name="docker-build">
 
-        <fail unless="docker_tag">Docker Tag 'docker_tag' not set!</fail>
-        
+        <fail unless="container_name">Container Name 'container_name' not set!</fail>
+        <fail unless="container_tag">Container Tag 'container_tag' not set!</fail>
+
+        <available file="${executable_name} property="file.exists"/>
+        <fail message="File not found: ${executable_name}" unless="file.exists"/>
+            
         <exec executable="docker">
             <arg value="build" />
             <arg value="." />
             <arg value="-t" />
-            <arg value="${docker_tag}" />
+            <arg value="${container_name}:${container_tag}" />
         </exec>
         
     </target>
