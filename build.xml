@@ -156,7 +156,7 @@
 
     </target>
     
-    <target name="download-app" depends="build">
+    <target name="download-app" depends="init">
     
         <fail unless="token">Bearer Token not set!</fail>
 
