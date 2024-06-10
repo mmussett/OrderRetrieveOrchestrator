@@ -173,7 +173,7 @@
         <fail unless="container_name">Container Name 'container_name' not set!</fail>
         <fail unless="container_tag">Container Tag 'container_tag' not set!</fail>
 
-        <available file="${executable_name} property="file.exists"/>
+        <available file="${executable_name}" property="file.exists"/>
         <fail message="File not found: ${executable_name}" unless="file.exists"/>
             
         <exec executable="docker">
