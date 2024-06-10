@@ -2,61 +2,7 @@
 
     <property environment="env"/>
 
-    <fail message="CLIENT_ID not set.">
-        <condition>
-            <not>
-                <isset property="env.CLIENT_ID"/>    
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="CLIENT_SECRET not set.">
-        <condition>
-            <not>
-                <isset property="env.CLIENT_SECRET"/>
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="APP_ID not set.">
-        <condition>
-            <not>
-                <isset property="env.APP_ID"/>
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="EXECUTABLE_NAME not set.">
-        <condition>
-            <not>
-                <isset property="env.EXECUTABLE_NAME"/>    
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="APP_JSON not set.">
-        <condition>
-            <not>
-                <isset property="env.APP_JSON"/>
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="TARGET_OS not set.">
-        <condition>
-            <not>
-                <isset property="env.TARGET_OS"/>
-            </not>
-        </condition>
-    </fail>
-
-    <fail message="TARGET_ARCH not set.">
-        <condition>
-            <not>
-                <isset property="env.TARGET_ARCH"/>
-            </not>
-        </condition>
-    </fail>
+ 
     
     <property name="executable_name" value="${env.EXECUTABLE_NAME}"/>
     <property name="app_json" value="${env.APP_JSON}"/>
@@ -66,6 +12,13 @@
     <property name="appid" value="${env.APP_ID}"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
     <property name="client_secret" value="${env.CLIENT_SECRET}"/>
+    <property name="src_container_name" value="${env.SRC_CONTAINER_NAME}"/>
+    <property name="src_container_tag" value="${env.SRC_CONTAINER_TAG}"/>
+    <property name="target_container_name" value="${env.TARGET_CONTAINER_NAME}"/>
+    <property name="target_container_tag" value="${env.TARGET_CONTAINER_TAG}"/>
+    <property name="registry_username" value="${env.REGISTRY_USERNAME}"/>
+    <property name="registry_password" value="${env.REGISTRY_PASSWORD}"/>
+    <property name="registry_server" value="${env.REGISTRY_SERVER}"/>
 
     <echo message="APP_ID: ${appid}"/>
     <echo message="CLIENT_ID: ${client_id}"/>
@@ -74,6 +27,15 @@
     <echo message="APP_JSON: ${app_json}"/>
     <echo message="TARGET_OS: ${target_os}"/>
     <echo message="TARGET_ARCH: ${target_arch}"/>
+
+    <echo message="SRC_CONTAINER_NAME: ${client_secret}"/>
+    <echo message="SRC_CONTAINER_TAG: ${executable_name}"/>
+    <echo message="TARGET_CONTAINER_NAME: ${app_json}"/>
+    <echo message="TARGET_CONTAINER_TAG: ${target_os}"/>
+    <echo message="REGISTRY_USERNAME: ${registry_username}"/>
+    <echo message="REGISTRY_PASSWORD: ${registry_password}"/>
+    <echo message="REGISTRY_SERVER: ${registry_server}"/>
+
     
     <target name="init" depends="fetch-token">
     
