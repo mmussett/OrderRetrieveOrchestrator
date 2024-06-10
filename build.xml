@@ -211,7 +211,6 @@
             </condition>
         </fail>
            
-
         <echo message="Building Flogo application from source ${app_json}"/>
         
         <exec executable="curl">
@@ -244,9 +243,6 @@
 
     <target name="docker-build">
 
-        <property name="container_name" value="${env.CONTAINER_NAME}"/>
-        <property name="container_tag" value="${env.CONTAINER_TAG}"/>
-
         <fail message="The property 'container_name' is empty">
           <condition>
             <length string="${container_name}" trim="true" when="equal" length="0"/>
@@ -276,11 +272,7 @@
 
     
     <target name="docker-login">
-
-        <property name="registry_username" value="${env.registry_username"/>
-        <property name="registry_password" value="${env.registry_password"/>
-        <property name="registry_server" value="${env.registry_server"/>
-
+        
         <fail message="The property 'registry_username' is empty">
           <condition>
             <length string="${registry_username}" trim="true" when="equal" length="0"/>
@@ -293,6 +285,12 @@
           </condition>
         </fail>  
 
+        <fail message="The property 'registry_server' is empty">
+          <condition>
+            <length string="${registry_server}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>  
+        
         <echo message="Logging into docker registry at ${registry_server}"/>
         
         <exec executable="docker">
@@ -308,24 +306,29 @@
         
     <target name="docker-push" depends="docker-login">
 
-        <property name="container_name" value="${env.CONTAINER_NAME}"/>
-        <property name="container_tag" value="${env.CONTAINER_TAG}"/>
-        <property name="registry_username" value="${env.registry_username"/>
-        <property name="registry_password" value="${env.registry_password"/>
-
-        <fail message="The property 'container_name' is empty">
+        <fail message="The property 'src_container_name' is empty">
           <condition>
-            <length string="${container_name}" trim="true" when="equal" length="0"/>
+            <length string="${src_container_name}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>
  
-        <fail message="The property 'container_tag' is empty">
+        <fail message="The property 'src_container_tag' is empty">
           <condition>
-            <length string="${container_tag}" trim="true" when="equal" length="0"/>
+            <length string="${src_container_tag}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>   
 
-
+        <fail message="The property 'target_container_name' is empty">
+          <condition>
+            <length string="${target_container_name}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>
+ 
+        <fail message="The property 'src_container_tag' is empty">
+          <condition>
+            <length string="${target_container_tag}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>   
         
     </target>
     
