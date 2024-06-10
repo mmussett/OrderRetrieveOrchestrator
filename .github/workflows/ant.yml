@@ -14,13 +14,13 @@ jobs:
     env:
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-      APP_ID: ${{ env.APP_ID }}
-      APP_JSON: APP_JSON
-      EXECUTABLE_NAME: EXECUTABLE_NAME
-      TARGET_ARCH: TARGET_ARCH
-      TARGET_OS: TARGET_OS
-      CONTAINER_NAME: CONTAINER_NAME
-      CONTAINER_TAG: CONTAINER_TAG
+      APP_ID: dnqcj37vr75gcqpwmrg4nthgro5xyuht
+      APP_JSON: OrderRetrieveOrchestrator.json
+      EXECUTABLE_NAME: orderRetrieveOrchestrator
+      TARGET_ARCH: amd64
+      TARGET_OS: linux
+      CONTAINER_NAME: order-retrieve-orchestrator
+      CONTAINER_TAG: latest
     runs-on: self-hosted
     
     steps:
