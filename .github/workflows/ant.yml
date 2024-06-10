@@ -14,6 +14,9 @@ jobs:
     env:
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+      REGISTRY_USERNAME: ${{secret.REGISTRY_USERNAME}}
+      REGISTRY_PASSWORD: ${{secret.REGISTRY_PASSWORD}}
+      REGISTRY_SERVER: registry.vmlab.live
       APP_ID: dnqcj37vr75gcqpwmrg4nthgro5xyuht
       APP_JSON: OrderRetrieveOrchestrator.json
       EXECUTABLE_NAME: orderRetrieveOrchestrator
@@ -26,4 +29,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Building app executable using application json 
-      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid  docker-build -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid docker-build docker-push -DREGISTRY_USERNAME=$REGISTRY_USERNAME -DREGISTRY_PASSWORD=$REGISTRY_PASSWORD -DREGISTRY_SERVER=$REGISTRY_SERVER -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
