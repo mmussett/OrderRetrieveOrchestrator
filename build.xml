@@ -262,16 +262,16 @@
         
         <exec executable="docker">
             <arg value="login"/>
-            <arg value="-u"/>
+            <arg value="--username"/>
             <arg value="${registy_username}"/>
-            <arg value="-p"/>
+            <arg value="--password"/>
             <arg value="${registry_password}"/>
             <arg value="${registry_server}"/>
         </exec>
         
     </target>
         
-    <target name="docker-push" depends="docker-login">
+    <target name="docker-push" depends="">
 
         <fail message="The property 'src_container_name' is empty">
           <condition>
