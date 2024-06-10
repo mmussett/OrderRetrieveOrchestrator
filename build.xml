@@ -156,6 +156,14 @@
             <arg value="build.json" />
         </exec>
 
+       <exec executable="jq" outputproperty="build-id">
+           <arg value="--raw-output"/>
+           <arg value=".[5].buildId"/>
+           <arg value="build.json"/>
+       </exec>
+
+        <echo message="${build-id}" />
+        
     </target>
     
     <target name="download-app" depends="init">
