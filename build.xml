@@ -143,7 +143,7 @@
             <arg value="-X" />
             <arg value="POST" />
             <arg value="--location" />
-            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo?os=${target_os}&amp;arch=${target_arch}" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo?os=${target_os}&amp;arch=${target_arch}&amp;name=${executable_name}" />
             <arg value="--header" />
             <arg value="accept: application/json" />
             <arg value="--header" />
@@ -151,7 +151,8 @@
             <arg value="--header" />
             <arg value="Authorization: Bearer ${token}" />
             <arg value="--form" />
-            <arg value="'flogo.json=@./src/${app_json}'" />        
+            <arg value="flogo.json=@./src/${app_json}" />
+            <arg value="--output build.json" />
         </exec>
 
     </target>
