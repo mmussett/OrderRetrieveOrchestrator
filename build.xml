@@ -205,29 +205,34 @@
 
     <target name="docker-build">
 
-        <fail message="The property 'container_name' is empty">
+        <fail message="The property 'src_container_name' is empty">
           <condition>
-            <length string="${container_name}" trim="true" when="equal" length="0"/>
+            <length string="${src_container_name}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>
  
-        <fail message="The property 'container_tag' is empty">
+        <fail message="The property 'src_container_tag' is empty">
           <condition>
-            <length string="${container_tag}" trim="true" when="equal" length="0"/>
+            <length string="${src_container_tag}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>   
-
-
+ 
+        <fail message="The property 'executable_name' is empty">
+          <condition>
+            <length string="${executable_name}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>   
+        
         <available file="${executable_name}" property="file.exists"/>
         <fail message="File not found: ${executable_name}" unless="file.exists"/>
 
-        <echo message="Building Container Image: ${container_name}:${container_tag} using ${executable_name}"/>
+        <echo message="Building Container Image: ${src_container_name}:${src_container_tag} using ${executable_name}"/>
         
         <exec executable="docker">
             <arg value="build" />
             <arg value="." />
             <arg value="-t" />
-            <arg value="${container_name}:${container_tag}" />
+            <arg value="${src_container_name}:${src_container_tag}" />
         </exec>
         
     </target>
