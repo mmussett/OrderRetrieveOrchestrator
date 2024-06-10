@@ -168,11 +168,24 @@
         
     </target>
 
+    <target name="docker-build">
+
+        <fail unless="docker_tag">Docker Tag 'docker_tag' not set!</fail>
+        
+        <exec executable="docker">
+            <arg value="build" />
+            <arg value="." />
+            <arg value="-t" />
+            <arg value="${docker_tag}" />
+        </exec>
+        
+    </target>
+    
     <target name="download-app-using-buildid" depends="init">
     
         <fail unless="token">Bearer Token 'token' not set!</fail>
 
-        <fail unless="build_id">build_id not set!</fail>
+        <fail unless="build_id">Build Identifier 'build_id' not set!</fail>
 
         <echo message="Downloading build_id: ${build_id} as executable ${executable_name}"/>
         
