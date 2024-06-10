@@ -19,11 +19,15 @@ jobs:
       EXECUTABLE_NAME: EXECUTABLE_NAME
       TARGET_ARCH: TARGET_ARCH
       TARGET_OS: TARGET_OS
-      
+      CONTAINER_NAME: CONTAINER_NAME
+      CONTAINER_TAG: CONTAINER_TAG
     runs-on: self-hosted
     
     steps:
     - uses: actions/checkout@v4
-    - name: Build with Ant
-      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid  -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
-      
+    - name: Building app executable using application json 
+      run: ant -noinput -buildfile build.xml build-using-appjson -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+    - name: Download app executable using buildid 
+      run: ant -noinput -buildfile build.xml download-app-using-buildid  -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+    - name: Building docker image
+      run: ant -noinput -buildfile build.xml docker-build -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
