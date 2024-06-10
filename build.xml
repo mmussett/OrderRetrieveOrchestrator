@@ -190,7 +190,7 @@
             <arg value="${executable_name}" />        
         </exec>
 
-        <chmod file="${executable_name} perm="755"/>
+        <chmod file="${executable_name}" perm="755"/>
         
     </target>
     
@@ -212,7 +212,7 @@
             <arg value="${executable_name}" />        
         </exec>
 
-        <chmod file="${executable_name} perm="755"/>
+        <chmod file="${executable_name}" perm="755"/>
             
     </target>
 
