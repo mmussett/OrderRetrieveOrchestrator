@@ -12,10 +12,9 @@
     <property name="appid" value="${env.APP_ID}"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
     <property name="client_secret" value="${env.CLIENT_SECRET}"/>
-    <property name="src_container_name" value="${env.SRC_CONTAINER_NAME}"/>
-    <property name="src_container_tag" value="${env.SRC_CONTAINER_TAG}"/>
-    <property name="target_container_name" value="${env.TARGET_CONTAINER_NAME}"/>
-    <property name="target_container_tag" value="${env.TARGET_CONTAINER_TAG}"/>
+    <property name="container_name" value="${env.CONTAINER_NAME}"/>
+    <property name="container_tag" value="${env.CONTAINER_TAG}"/>
+
     <property name="registry_username" value="${env.REGISTRY_USERNAME}"/>
     <property name="registry_password" value="${env.REGISTRY_PASSWORD}"/>
     <property name="registry_server" value="${env.REGISTRY_SERVER}"/>
@@ -28,10 +27,8 @@
     <echo message="TARGET_OS: ${target_os}"/>
     <echo message="TARGET_ARCH: ${target_arch}"/>
 
-    <echo message="SRC_CONTAINER_NAME: ${client_secret}"/>
-    <echo message="SRC_CONTAINER_TAG: ${executable_name}"/>
-    <echo message="TARGET_CONTAINER_NAME: ${app_json}"/>
-    <echo message="TARGET_CONTAINER_TAG: ${target_os}"/>
+    <echo message="CONTAINER_NAME: ${container_name}"/>
+    <echo message="CONTAINER_TAG: ${container_tag}"/>
     <echo message="REGISTRY_USERNAME: ${registry_username}"/>
     <echo message="REGISTRY_PASSWORD: ${registry_password}"/>
     <echo message="REGISTRY_SERVER: ${registry_server}"/>
@@ -205,15 +202,15 @@
 
     <target name="docker-build">
 
-        <fail message="The property 'src_container_name' is empty">
+        <fail message="The property 'container_name' is empty">
           <condition>
-            <length string="${src_container_name}" trim="true" when="equal" length="0"/>
+            <length string="${container_name}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>
  
-        <fail message="The property 'src_container_tag' is empty">
+        <fail message="The property 'container_tag' is empty">
           <condition>
-            <length string="${src_container_tag}" trim="true" when="equal" length="0"/>
+            <length string="${container_tag}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>   
  
@@ -226,76 +223,49 @@
         <available file="${executable_name}" property="file.exists"/>
         <fail message="File not found: ${executable_name}" unless="file.exists"/>
 
-        <echo message="Building Container Image: ${src_container_name}:${src_container_tag} using ${executable_name}"/>
+        <echo message="Building Container Image: ${container_name}:${container_tag} using ${executable_name}"/>
         
         <exec executable="docker">
             <arg value="build" />
             <arg value="." />
             <arg value="-t" />
-            <arg value="${src_container_name}:${src_container_tag}" />
+            <arg value="${container_name}:${container_tag}" />
         </exec>
         
     </target>
 
-    
-    <target name="docker-login">
-        
-        <fail message="The property 'registry_username' is empty">
-          <condition>
-            <length string="${registry_username}" trim="true" when="equal" length="0"/>
-          </condition>
-        </fail>
- 
-        <fail message="The property 'registry_password' is empty">
-          <condition>
-            <length string="${registry_password}" trim="true" when="equal" length="0"/>
-          </condition>
-        </fail>  
 
-        <fail message="The property 'registry_server' is empty">
-          <condition>
-            <length string="${registry_server}" trim="true" when="equal" length="0"/>
-          </condition>
-        </fail>  
         
-        <echo message="Logging into docker registry at ${registry_server}"/>
-        
-        <exec executable="docker">
-            <arg value="login"/>
-            <arg value="--username"/>
-            <arg value="${registy_username}"/>
-            <arg value="--password"/>
-            <arg value="${registry_password}"/>
-            <arg value="${registry_server}"/>
-        </exec>
-        
-    </target>
-        
-    <target name="docker-push" depends="">
+    <target name="docker-tag-and-push" depends="">
 
-        <fail message="The property 'src_container_name' is empty">
+        <fail message="The property 'container_name' is empty">
           <condition>
             <length string="${src_container_name}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>
  
-        <fail message="The property 'src_container_tag' is empty">
+        <fail message="The property 'container_tag' is empty">
           <condition>
             <length string="${src_container_tag}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>   
 
-        <fail message="The property 'target_container_name' is empty">
+        <fail message="The property 'registry_server' is empty">
           <condition>
-            <length string="${target_container_name}" trim="true" when="equal" length="0"/>
-          </condition>
-        </fail>
- 
-        <fail message="The property 'src_container_tag' is empty">
-          <condition>
-            <length string="${target_container_tag}" trim="true" when="equal" length="0"/>
+            <length string="${registry_server}" trim="true" when="equal" length="0"/>
           </condition>
         </fail>   
+
+        <exec executable="docker">
+            <arg value="tag" />
+            <arg value="${container_name}:${container_tag}" />
+            <arg value="${registry_server}/${container_name}:${container_tag}" />
+        </exec>
+
+        <exec executable="docker">
+            <arg value="push" />
+            <arg value="${registry_server}/${container_name}:${container_tag}" />
+        </exec>
         
     </target>
     
