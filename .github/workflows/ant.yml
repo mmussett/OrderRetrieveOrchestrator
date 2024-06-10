@@ -14,11 +14,17 @@ jobs:
     env:
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-      APP_ID: 'dnqcj37vr75gcqpwmrg4nthgro5xyuht'
+      APP_ID: ${{env.APP_ID}}
+      TARGET_OS: ${{env.TARGET_OS}}
+      TARGET_ARCH: ${{env.TARGET_ARCH}}
+      EXECUTABLE_NAME: ${{env.EXECUTABLE_NAME}}
+      APP_JSON: ${{env.APP_JSON}}
       
     runs-on: self-hosted
     
     steps:
+    - name: Print env
+      run: echo "APP_ID: $APP_ID"
     - uses: actions/checkout@v4
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml fetch-token
