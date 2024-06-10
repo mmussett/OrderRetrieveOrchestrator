@@ -162,11 +162,33 @@
            <arg value="build.json"/>
        </exec>
 
-        <echo message="${build-id}" />
+        <echo message="${build_id}" />
         
     </target>
+
+    <target name="download-app-using-buildid" depends="init">
     
-    <target name="download-app" depends="init">
+        <fail unless="token">Bearer Token not set!</fail>
+
+        <fail unless="build_id">Build ID not set!</fail>
+        
+        <exec executable="curl">
+            <arg value="-s" />
+            <arg value="--location" />
+            <arg value="https://eu.api.cloud.tibco.com/tci/v1/subscriptions/0/app/build/flogo/{build-id}?compress=true" />
+            <arg value="--header" />
+            <arg value="accept: application/octet-stream" />
+            <arg value="--header" />
+            <arg value="Content-Type: application/x-www-form-urlencoded" />        
+            <arg value="--header" />
+            <arg value="Authorization: Bearer ${token}" />
+            <arg value="--output" />
+            <arg value="${executable_name}" />        
+        </exec>
+
+    </target>
+    
+    <target name="download-app-using-appid" depends="init">
     
         <fail unless="token">Bearer Token not set!</fail>
 
@@ -254,7 +276,7 @@
     </target>
 
 
-    <target name="all" depends="clean, build, download-app, download-testsuite, export-app, run-testsuite, eval-testresults">
+    <target name="all" depends="clean, build, download-app-using-appid, download-testsuite, export-app, run-testsuite, eval-testresults">
     </target>
 
 </project>
