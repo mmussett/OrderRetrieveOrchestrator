@@ -152,7 +152,8 @@
             <arg value="Authorization: Bearer ${token}" />
             <arg value="--form" />
             <arg value="flogo.json=@./src/${app_json}" />
-            <arg value="--output build.json" />
+            <arg value="--output" />
+            <arg value="build.json" />
         </exec>
 
     </target>
