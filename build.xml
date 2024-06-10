@@ -156,21 +156,21 @@
             <arg value="build.json" />
         </exec>
 
-       <exec executable="jq" outputproperty="build-id">
+       <exec executable="jq" outputproperty="build_id">
            <arg value="--raw-output"/>
            <arg value=".[5].buildId"/>
            <arg value="build.json"/>
        </exec>
 
-        <echo message="${build_id}" />
+        <echo message="BUILD_ID: ${build_id}" />
         
     </target>
 
     <target name="download-app-using-buildid" depends="init">
     
-        <fail unless="token">Bearer Token not set!</fail>
+        <fail unless="token">Bearer Token 'token' not set!</fail>
 
-        <fail unless="build_id">Build ID not set!</fail>
+        <fail unless="build_id">build_id not set!</fail>
         
         <exec executable="curl">
             <arg value="-s" />
