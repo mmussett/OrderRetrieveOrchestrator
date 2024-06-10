@@ -58,10 +58,10 @@
         </condition>
     </fail>
     
-    <property name="executable_name" value="orderRetrieveOrchestrator"/>
-    <property name="app_json" value="OrderRetrieveOrchestrator.json"/>
-    <property name="target_os" value="linux"/>
-    <property name="target_arch" value="amd64"/>
+    <property name="executable_name" value="${env.EXECUTABLE_NAME}"/>
+    <property name="app_json" value="${env.APP_JSON}"/>
+    <property name="target_os" value="${env.TARGET_OS}"/>
+    <property name="target_arch" value="${env.TARGET_ARCH}"/>
     
     <property name="appid" value="${env.APP_ID}"/>
     <property name="client_id" value="${env.CLIENT_ID}"/>
@@ -170,12 +170,27 @@
 
     <target name="docker-build">
 
-        <fail unless="container_name">Container Name 'container_name' not set!</fail>
-        <fail unless="container_tag">Container Tag 'container_tag' not set!</fail>
+        <property name="container_name" value="${env.CONTAINER_NAME}"/>
+        <property name="container_tag" value="${env.CONTAINER_TAG}"/>
+
+        <fail message="The property 'container_name' is empty">
+          <condition>
+            <length string="${container_name}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>
+ 
+        <fail message="The property 'container_tag' is empty">
+          <condition>
+            <length string="${container_tag}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>   
+
 
         <available file="${executable_name}" property="file.exists"/>
         <fail message="File not found: ${executable_name}" unless="file.exists"/>
-            
+
+        <echo message="Building Container Image: ${container_name}:${container_tag} using ${executable_name}"/>
+        
         <exec executable="docker">
             <arg value="build" />
             <arg value="." />
