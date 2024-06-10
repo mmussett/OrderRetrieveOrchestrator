@@ -88,6 +88,26 @@
 
 
     <target name="fetch-token">
+        
+        <fail message="CLIENT_ID not set.">
+            <condition>
+                <not>
+                    <isset property="env.CLIENT_ID"/>    
+                </not>
+            </condition>
+        </fail>
+
+        <fail message="CLIENT_SECRET not set.">
+            <condition>
+                <not>
+                    <isset property="env.CLIENT_SECRET"/>
+                </not>
+            </condition>
+        </fail>
+
+        <property name="client_id" value="${env.CLIENT_ID}"/>
+        <property name="client_secret" value="${env.CLIENT_SECRET}"/>
+        
         <exec executable="curl" outputproperty="json-token">
             <arg value="-s" />
             <arg value="--location" />
@@ -107,7 +127,7 @@
          <arg value="--raw-output"/>
        </exec>
 
-       <echo message="${access-token}" />
+       <echo message="Granted Access Token: ${access-token}" />
 
        <property name="token" value="${access-token}"/>
 
@@ -118,6 +138,34 @@
 
         <fail unless="token">Bearer Token not set!</fail>
 
+            <fail message="APP_ID not set.">
+        <condition>
+            <not>
+                <isset property="env.APP_ID"/>
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="TARGET_OS not set.">
+        <condition>
+            <not>
+                <isset property="env.TARGET_OS"/>
+            </not>
+        </condition>
+    </fail>
+
+    <fail message="TARGET_ARCH not set.">
+        <condition>
+            <not>
+                <isset property="env.TARGET_ARCH"/>
+            </not>
+        </condition>
+    </fail>
+
+    <property name="appid" value="${env.APP_ID}"/>        
+    <property name="target_os" value="${env.TARGET_OS}"/>
+    <property name="target_arch" value="${env.TARGET_ARCH}"/>        
+        
         <exec executable="curl">
             <arg value="-s" />
             <arg value="--location" />
