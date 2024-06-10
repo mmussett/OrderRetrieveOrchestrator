@@ -199,6 +199,61 @@
         </exec>
         
     </target>
+
+    
+    <target name="docker-login">
+
+        <property name="registry_username" value="${env.registry_username"/>
+        <property name="registry_password" value="${env.registry_password"/>
+        <property name="registry_server" value="${env.registry_server"/>
+
+        <fail message="The property 'registry_username' is empty">
+          <condition>
+            <length string="${registry_username}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>
+ 
+        <fail message="The property 'registry_password' is empty">
+          <condition>
+            <length string="${registry_password}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>  
+
+        <echo message="Logging into docker registry at ${registry_server}"/>
+        
+        <exec executable="docker">
+            <arg value="login"/>
+            <arg value="-u"/>
+            <arg value="${registy_username"/>
+            <arg value="-p"/>
+            <arg value="${registry_password"/>
+            <arg value="${registry_server}"/>
+        </exec>
+        
+    </target>
+        
+    <target name="docker-push" depends="docker-login">
+
+        <property name="container_name" value="${env.CONTAINER_NAME}"/>
+        <property name="container_tag" value="${env.CONTAINER_TAG}"/>
+        <property name="registry_username" value="${env.registry_username"/>
+        <property name="registry_password" value="${env.registry_password"/>
+
+        <fail message="The property 'container_name' is empty">
+          <condition>
+            <length string="${container_name}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>
+ 
+        <fail message="The property 'container_tag' is empty">
+          <condition>
+            <length string="${container_tag}" trim="true" when="equal" length="0"/>
+          </condition>
+        </fail>   
+
+
+        
+    </target>
     
     <target name="download-app-using-buildid" depends="init">
     
