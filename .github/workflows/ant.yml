@@ -37,6 +37,13 @@ jobs:
 
     - name: Building Docker Container Image 
       run: ant -noinput -buildfile build.xml docker-build 
-    
+
+    - name: Login to Docker Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: registry.vmlab.live
+        username: ${{secrets.REGISTRY_USERNAME}}
+        password: ${{secrets.REGISTRY_PASSWORD}}
+          
     - name: Pushing Docker Container Image to Registry 
       run: ant -noinput -buildfile build.xml docker-push 
