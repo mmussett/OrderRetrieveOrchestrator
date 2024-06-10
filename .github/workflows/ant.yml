@@ -28,14 +28,12 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    - name: test
-      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid 
-      
+
     - name: Building app executable using application json 
-      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
-    - name: Downloading application 
-      run: ant -noinput -buildfile build.xml download-app-using-buildid -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid 
+
     - name: Building Docker Container Image 
-      run: ant -noinput -buildfile build.xml docker-build -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+      run: ant -noinput -buildfile build.xml docker-build 
+    
     - name: Pushing Docker Container Image to Registry 
-      run: ant -noinput -buildfile build.xml docker-push -DREGISTRY_USERNAME=$REGISTRY_USERNAME -DREGISTRY_PASSWORD=$REGISTRY_PASSWORD -DREGISTRY_SERVER=$REGISTRY_SERVER -DSRC_CONTAINER_NAME=$CONTAINER_NAME -DSRC_CONTAINER_TAG=$CONTAINER_TAG -DTARGET_CONTAINER_NAME=registry.vmlab.live/$CONTAINER_NAME -DTARGET_CONTAINER_TAG:latest
+      run: ant -noinput -buildfile build.xml docker-push 
