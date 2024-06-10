@@ -190,6 +190,8 @@
             <arg value="${executable_name}" />        
         </exec>
 
+        <chmod file="${executable_name} perm="755"/>
+        
     </target>
     
     <target name="download-app-using-appid" depends="init">
@@ -210,6 +212,8 @@
             <arg value="${executable_name}" />        
         </exec>
 
+        <chmod file="${executable_name} perm="755"/>
+            
     </target>
 
 
