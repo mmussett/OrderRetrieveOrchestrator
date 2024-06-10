@@ -23,8 +23,7 @@ jobs:
     runs-on: self-hosted
     
     steps:
-    - name: Print env
-      run: echo "APP_ID: $APP_ID"
     - uses: actions/checkout@v4
     - name: Build with Ant
-      run: ant -noinput -buildfile build.xml fetch-token
+      run: ant -noinput -buildfile build.xml fetch-token -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APPI_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+      
