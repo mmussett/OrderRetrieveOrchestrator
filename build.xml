@@ -245,7 +245,7 @@
         </exec>    
     </target>
 
-    <target name="run-testsuite" depends="clean, build, download-app, download-testsuite">
+    <target name="run-testsuite" depends="clean, build, download-app-using-appid, download-testsuite">
        <exec executable="flogo-app.exe">
          <arg value="--test" />
          <arg value="--test-file" />
