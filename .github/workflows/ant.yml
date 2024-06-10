@@ -28,8 +28,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+    - name: test
+      run: ant -noinput -buiildfile build.xml build-using-appjson download-app-using-buildid
     - name: Building app executable using application json 
-      run: ant -noinput -buildfile build.xml build-using-appjson -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
+      run: ant -noinput -buildfile build.xml build-using-appjson download-app-using-buildid -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
     - name: Downloading application 
       run: ant -noinput -buildfile build.xml download-app-using-buildid -DCONTAINER_NAME=$CONTAINER_NAME -DCONTAINER_TAG=$CONTAINER_TAG -DCLIENT_ID=$CLIENT_ID -DCLIENT_SECRET=$CLIENT_SECRET -DAPP_ID=$APP_ID -DTARGET_OS=$TARGET_OS -DTARGET_ARCH=$TARGET_ARCH -DEXECUTABLE_NAME=$EXECUTABLE_NAME -DAPP_JSON=$APP_JSON
     - name: Building Docker Container Image 
