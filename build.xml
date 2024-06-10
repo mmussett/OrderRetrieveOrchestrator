@@ -208,7 +208,7 @@
 
        <exec executable="jq" outputproperty="build_id">
            <arg value="--raw-output"/>
-           <arg value=".[5].buildId"/>
+           <arg value=".[length-1].buildId"/>
            <arg value="build.json"/>
        </exec>
 
