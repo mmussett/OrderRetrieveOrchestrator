@@ -46,4 +46,4 @@ jobs:
         password: ${{secrets.REGISTRY_PASSWORD}}
           
     - name: Pushing Docker Container Image to Registry 
-      run: ant -noinput -buildfile build.xml docker-push 
+      run: ant -noinput -buildfile build.xml docker-tag-and-push 
